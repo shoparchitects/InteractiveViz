@@ -6,28 +6,42 @@ using M2MqttUnity;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using System.Threading.Tasks;
+using UnityEngine.UI;
+using TMPro;
 
-public class mqttSend : M2MqttUnityClient
+public class mqttHandle : M2MqttUnityClient
 {
 
     [Header("MQTT topics")]
     [Tooltip("Set the topic to subscribe. !!!ATTENTION!!! multi-level wildcard # subscribes to all topics")]
     public string topicSubscribe = "cmnd/UnityTest"; // topic to subscribe. 
     [Tooltip("Set the topic to publish (optional)")]
-    //public string topicPublish = "Ingestion/UnityManager"; // topic to publish
+    public string topicPublish = "IViz/Test"; // topic to publish
     public string messagePublish = "test"; // message to publish
-    private string topicLWT = "Ingestion/UnityTest"; // topic to  LWT
+    private string topicLWT = "IViz/Test/LWT"; // topic to  LWT
+    public static mqttHandle _MqttHandle;
 
 
-    public static mqttSend _mqttSend;
+
+    //UI elements
+    private bool updateUI = false;
+    [Header("User Interface")]
+    public TMP_InputField consoleInputField;
+    public InputField addressInputField;
+    public InputField portInputField;
+    public Button connectButton;
+    public Button disconnectButton;
+    public Button testPublishButton;
+    public Button clearButton;
+
 
     private void Awake()
     {
         base.Awake();
-        if (_mqttSend == null)
+        if (_MqttHandle == null)
         {
             DontDestroyOnLoad(gameObject);
-            _mqttSend = this;
+            _MqttHandle = this;
         }
         else
         {
@@ -92,6 +106,7 @@ public class mqttSend : M2MqttUnityClient
             _topic, System.Text.Encoding.UTF8.GetBytes(msg),
             MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, false);
             Debug.Log("message published: " + _topic + "--" + msg);
+            AddUiMessage(DateTime.Now+"published: " + _topic + "--" + msg);
         }
 
     }
@@ -186,7 +201,102 @@ public class mqttSend : M2MqttUnityClient
     protected override void Update()
     {
         base.Update(); // call ProcessMqttEvents()
+        if (eventMessages.Count > 0)
+        {
+            foreach (string msg in eventMessages)
+            {
+                ProcessMessage(msg);
+            }
+            eventMessages.Clear();
+        }
 
+        if (updateUI)
+        {
+            UpdateUI();
+        }
+
+    }
+
+    public void SetBrokerAddress(string brokerAddress)
+    {
+        if (addressInputField && !updateUI)
+        {
+            this.brokerAddress = brokerAddress;
+        }
+    }
+
+    public void SetBrokerPort(string brokerPort)
+    {
+        if (portInputField && !updateUI)
+        {
+            int.TryParse(brokerPort, out this.brokerPort);
+        }
+    }
+    private void ProcessMessage(string msg)
+    {
+        AddUiMessage("Received: " + msg);
+    }
+    
+
+    public void SetUiMessage(string msg)
+    {
+        if (consoleInputField != null)
+        {
+            consoleInputField.text = msg;
+            updateUI = true;
+        }
+    }
+    
+    public void AddUiMessage(string msg)
+    {
+        if (consoleInputField != null)
+        {
+            consoleInputField.text += msg + "\n";
+            updateUI = true;
+        }
+    }
+
+    private void UpdateUI()
+    {
+        if (client == null)
+        {
+            if (connectButton != null)
+            {
+                connectButton.interactable = true;
+                disconnectButton.interactable = false;
+                testPublishButton.interactable = false;
+            }
+        }
+        else
+        {
+            if (testPublishButton != null)
+            {
+                testPublishButton.interactable = client.IsConnected;
+            }
+            if (disconnectButton != null)
+            {
+                disconnectButton.interactable = client.IsConnected;
+            }
+            if (connectButton != null)
+            {
+                connectButton.interactable = !client.IsConnected;
+            }
+        }
+        if (addressInputField != null && connectButton != null)
+        {
+            addressInputField.interactable = connectButton.interactable;
+            addressInputField.text = brokerAddress;
+        }
+        if (portInputField != null && connectButton != null)
+        {
+            portInputField.interactable = connectButton.interactable;
+            portInputField.text = brokerPort.ToString();
+        }
+        if (clearButton != null && connectButton != null)
+        {
+            clearButton.interactable = connectButton.interactable;
+        }
+        updateUI = false;
     }
 
     protected override void OnApplicationQuit()

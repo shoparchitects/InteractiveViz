@@ -70,17 +70,6 @@ namespace M2MqttUnity.Examples
             AddUiMessage("Test message published.");
         }
         
-        public void sendLightValue(float value)
-        {
-
-            client.Publish("M2MQTT_Unity/Light", System.Text.Encoding.UTF8.GetBytes(value.ToString()), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
-        }
-
-        public void sendTempValue(float value)
-        {
-            client.Publish("M2MQTT_Unity/Temp", System.Text.Encoding.UTF8.GetBytes(value.ToString()), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
-
-        }
 
         public void SetBrokerAddress(string brokerAddress)
         {
@@ -214,11 +203,7 @@ namespace M2MqttUnity.Examples
 
         protected override void Start()
         {
-            //if android device
-#if UNITY_ANDROID
-            InputSystem.EnableDevice(LightSensor.current);
-            //InputSystem.EnableDevice(AmbientTemperatureSensor.current);
-#endif
+
             SetUiMessage("Ready.");
             updateUI = true;
             base.Start();
@@ -260,39 +245,6 @@ namespace M2MqttUnity.Examples
                 }
                 eventMessages.Clear();
             }
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            ///
-            if (LightSensor.current != null)
-            {
-                Debug.Log(LightSensor.current.lightLevel.ReadValue());
-                lightValue = LightSensor.current.lightLevel.ReadValue();
-
-            }
-            else
-            {
-                lightValue = -99;
-            }
-            if (AmbientTemperatureSensor.current != null)
-            {
-                temp = AmbientTemperatureSensor.current.ambientTemperature.ReadValue();
-            }
-            else
-            {
-                temp = -99;
-            }
-
-            if ((Time.time - lastPublish) >= PublishInterval)
-            {
-
-                sendLightValue(lightValue);
-                sendTempValue(temp);
-                SetUiMessage("Published.Light: " + lightValue.ToString());
-                SetUiMessage("Published.Temp: " + temp.ToString());
-                lastPublish = Time.time;
-            }
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            ///
-
 
             if (updateUI)
             {
