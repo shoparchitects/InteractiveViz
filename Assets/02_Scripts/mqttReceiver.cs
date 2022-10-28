@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using uPLibrary.Networking.M2Mqtt.Messages;
-using shop;
+//using shop;
 using Newtonsoft.Json;
 
 public class mqttReceiver : M2MqttUnityClient
