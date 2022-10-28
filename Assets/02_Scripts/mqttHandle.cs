@@ -13,8 +13,12 @@ public class mqttHandle : M2MqttUnityClient
 {
 
     [Header("MQTT topics")]
-    [Tooltip("Set the topic to subscribe. !!!ATTENTION!!! multi-level wildcard # subscribes to all topics")]
-    public string topicSubscribe = "cmnd/UnityTest"; // topic to subscribe. 
+    [Tooltip("Set the topic(s) to subscribe. !!!ATTENTION!!! multi-level wildcard # subscribes to all topics")]
+    public string[] topics2Subscribe = { "M2MQTT_Unity/test/#", "cmnd/UnityTest", "Test/test" };
+    /// set the QoS level for each topic
+    byte[] qosLevelsSubscribe = { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE };
+    
+    
     [Tooltip("Set the topic to publish (optional)")]
     public string topicPublish = "IViz/Test"; // topic to publish
     public string messagePublish = "test"; // message to publish
@@ -29,6 +33,7 @@ public class mqttHandle : M2MqttUnityClient
     public TMP_InputField consoleInputField;
     public InputField addressInputField;
     public InputField portInputField;
+    public Toggle encryptedToggle;
     public Button connectButton;
     public Button disconnectButton;
     public Button testPublishButton;
@@ -120,14 +125,11 @@ public class mqttHandle : M2MqttUnityClient
             Debug.Log("LWT published: " + topicLWT + "--" + msg);
         }
     }
-    public void SetEncrypted(bool isEncrypted)
-    {
-        this.isEncrypted = isEncrypted;
-    }
 
     protected override void OnConnecting()
     {
         base.OnConnecting();
+        AddUiMessage("Connecting to broker on "+brokerAddress+":"+brokerPort.ToString()+"...\n");
     }
 
     protected override void OnConnected()
@@ -136,13 +138,14 @@ public class mqttHandle : M2MqttUnityClient
         isConnected = true;
         //publishLWT("Online");
         //publishData("UnityTest/LWT", "Online");
-        //Task.Run(() => PersistConnectionAsync());
+        
 
     }
 
     protected override void OnConnectionFailed(string errorMessage)
     {
         Debug.Log("CONNECTION FAILED! " + errorMessage);
+        AddUiMessage("CONNECTION FAILED! " + errorMessage);
     }
 
     protected override void OnDisconnected()
@@ -157,16 +160,19 @@ public class mqttHandle : M2MqttUnityClient
         //base.Connect();
     }
 
-
+    public void SetEncrypted(bool isEncrypted)
+    {
+        this.isEncrypted = isEncrypted;
+    }
 
     protected override void SubscribeTopics()
     {
-        client.Subscribe(new string[] { topicSubscribe }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+        client.Subscribe(topics2Subscribe, qosLevelsSubscribe);
     }
 
     protected override void UnsubscribeTopics()
     {
-        client.Unsubscribe(new string[] { topicSubscribe });
+        client.Unsubscribe(topics2Subscribe);
     }
 
     protected override void Start()
@@ -179,8 +185,23 @@ public class mqttHandle : M2MqttUnityClient
 
     protected override void DecodeMessage(string topic, byte[] message)
     {
-        //The message is decoded
-        msg = System.Text.Encoding.UTF8.GetString(message);
+        //The message is decoded and messages are relayed to respective functions
+        switch (topic)
+        {
+            case "M2MQTT_Unity/test/Attitude":
+                Debug.Log("Recived" + "M2MQTT_Unity/test/Attitude");
+                msg = System.Text.Encoding.UTF8.GetString(message);
+                Debug.Log("Recived" + msg);
+                Movemodel._Movemodel.moveModel(msg);
+
+                break;
+            case "M2MQTT_Unity/test/Light":
+                
+                break;
+            default:
+                msg = System.Text.Encoding.UTF8.GetString(message);
+                break;
+        }
 
         Debug.Log("Received: " + msg);
         Debug.Log("from topic: " + m_msg);

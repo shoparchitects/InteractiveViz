@@ -1273,7 +1273,7 @@ GameObject:
   - component: {fileID: 665189569}
   - component: {fileID: 665189568}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: MQTT Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1841,6 +1841,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 946571345}
   m_CullTransparentMesh: 1
+--- !u!1 &1200946662 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9160146816712166086, guid: 3517a2c0261d0b54989ac8ddd98a58e2, type: 3}
+  m_PrefabInstance: {fileID: 9160146816837058375}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1200946663 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9160146816712166083, guid: 3517a2c0261d0b54989ac8ddd98a58e2, type: 3}
+  m_PrefabInstance: {fileID: 9160146816837058375}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200946662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44dbde5e875125b46a3859c3c303e752, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1219479487
 GameObject:
   m_ObjectHideFlags: 0
@@ -3239,8 +3255,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 1200946663}
+        m_TargetAssemblyTypeName: M2MqttUnity.M2MqttUnityClient, Assembly-CSharp
         m_MethodName: Disconnect
         m_Mode: 1
         m_Arguments:
@@ -3354,9 +3370,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1200946662}
         m_TargetAssemblyTypeName: 
-        m_MethodName: TestPublish
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4467,8 +4483,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 1200946663}
+        m_TargetAssemblyTypeName: M2MqttUnity.M2MqttUnityClient, Assembly-CSharp
         m_MethodName: Connect
         m_Mode: 1
         m_Arguments:
@@ -5257,23 +5273,31 @@ PrefabInstance:
     - target: {fileID: 9160146816712166083, guid: 3517a2c0261d0b54989ac8ddd98a58e2, type: 3}
       propertyPath: clearButton
       value: 
+      objectReference: {fileID: 4121791899340790140}
+    - target: {fileID: 9160146816712166083, guid: 3517a2c0261d0b54989ac8ddd98a58e2, type: 3}
+      propertyPath: brokerAddress
+      value: 44.208.164.188
       objectReference: {fileID: 0}
     - target: {fileID: 9160146816712166083, guid: 3517a2c0261d0b54989ac8ddd98a58e2, type: 3}
       propertyPath: connectButton
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4121791898960825920}
     - target: {fileID: 9160146816712166083, guid: 3517a2c0261d0b54989ac8ddd98a58e2, type: 3}
       propertyPath: portInputField
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4121791897877187583}
+    - target: {fileID: 9160146816712166083, guid: 3517a2c0261d0b54989ac8ddd98a58e2, type: 3}
+      propertyPath: encryptedToggle
+      value: 
+      objectReference: {fileID: 4121791898903837931}
     - target: {fileID: 9160146816712166083, guid: 3517a2c0261d0b54989ac8ddd98a58e2, type: 3}
       propertyPath: disconnectButton
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4121791897781694273}
     - target: {fileID: 9160146816712166083, guid: 3517a2c0261d0b54989ac8ddd98a58e2, type: 3}
       propertyPath: addressInputField
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4121791899629874788}
     - target: {fileID: 9160146816712166083, guid: 3517a2c0261d0b54989ac8ddd98a58e2, type: 3}
       propertyPath: consoleInputField
       value: 
@@ -5281,6 +5305,10 @@ PrefabInstance:
     - target: {fileID: 9160146816712166083, guid: 3517a2c0261d0b54989ac8ddd98a58e2, type: 3}
       propertyPath: testPublishButton
       value: 
+      objectReference: {fileID: 4121791897832429744}
+    - target: {fileID: 9160146816712166083, guid: 3517a2c0261d0b54989ac8ddd98a58e2, type: 3}
+      propertyPath: topics2Subscribe.Array.data[0]
+      value: M2MQTT_Unity/test/z
       objectReference: {fileID: 0}
     - target: {fileID: 9160146816712166084, guid: 3517a2c0261d0b54989ac8ddd98a58e2, type: 3}
       propertyPath: m_Enabled

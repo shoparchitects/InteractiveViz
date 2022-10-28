@@ -18,9 +18,10 @@ public class SenseSomething : MonoBehaviour
 {
 
     public static SenseSomething _senseSomething;
-
     mqttHandle _MqttHandle;
     
+
+    //MQTT topics
     string topicLight = "M2MQTT_Unity/test/Light";
     string topicAccel = "M2MQTT_Unity/test/Accel";
     string topicMagnetic = "M2MQTT_Unity/test/Magnetic";
@@ -33,7 +34,7 @@ public class SenseSomething : MonoBehaviour
     string topicAttitude = "M2MQTT_Unity/test/Attitude";
 
 
-
+    //For MQTT messages
     string messageLight;
     string messageAccel;
     string messageMagnetic;
@@ -52,11 +53,13 @@ public class SenseSomething : MonoBehaviour
 
 
 
-
+    //interval to publish MQTT messages
     float lastPublish = 0;
     public float PublishInterval = 2f;
+
+    //interval to read sensors
     float lastRead = 0;
-    public float ReadInterval = 1f;
+    public float ReadInterval = 0.5f;
 
     private void Awake()
     {

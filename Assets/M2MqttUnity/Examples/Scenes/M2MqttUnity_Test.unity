@@ -907,7 +907,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbaa80705124f9e439d56ca6d5e6db69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brokerAddress: 3.84.82.254
+  brokerAddress: 44.208.164.188
   brokerPort: 1883
   isEncrypted: 0
   connectionDelay: 500

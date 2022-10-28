@@ -881,6 +881,14 @@ PrefabInstance:
       propertyPath: autoConnect
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9160146816712166083, guid: 3517a2c0261d0b54989ac8ddd98a58e2, type: 3}
+      propertyPath: brokerAddress
+      value: 44.208.164.188
+      objectReference: {fileID: 0}
+    - target: {fileID: 9160146816712166084, guid: 3517a2c0261d0b54989ac8ddd98a58e2, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9160146816712166085, guid: 3517a2c0261d0b54989ac8ddd98a58e2, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -931,31 +939,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3517a2c0261d0b54989ac8ddd98a58e2, type: 3}
---- !u!1 &1998215753 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9160146816712166086, guid: 3517a2c0261d0b54989ac8ddd98a58e2, type: 3}
-  m_PrefabInstance: {fileID: 1998215752}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1998215754
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1998215753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18fdac33eebc89745a46a6f994ce4fca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  brokerAddress: 3.84.82.254
-  brokerPort: 1883
-  isEncrypted: 0
-  connectionDelay: 500
-  timeoutOnConnection: 30000
-  autoConnect: 0
-  mqttUserName: 
-  mqttPassword: 
-  topicPublish: SHoPortal
-  messagePublish: test
-  autoTest: 0

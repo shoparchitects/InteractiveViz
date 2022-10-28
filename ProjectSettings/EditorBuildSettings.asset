@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/01_Scenes/Sensor2MQTT.unity
+    guid: 73dae2aa505e298418ad87ae487b19ab
   m_configObjects: {}
