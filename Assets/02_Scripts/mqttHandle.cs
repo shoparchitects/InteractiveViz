@@ -8,6 +8,7 @@ using uPLibrary.Networking.M2Mqtt.Messages;
 using System.Threading.Tasks;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class mqttHandle : M2MqttUnityClient
 {
@@ -192,11 +193,14 @@ public class mqttHandle : M2MqttUnityClient
                 Debug.Log("Recived" + "M2MQTT_Unity/test/Attitude");
                 msg = System.Text.Encoding.UTF8.GetString(message);
                 Debug.Log("Recived" + msg);
-                Movemodel._Movemodel.moveModel(msg);
+                //Movemodel._Movemodel.moveModel(msg);
 
                 break;
             case "M2MQTT_Unity/test/Light":
-                
+                //Map to light intensity
+                break;
+            case "M2MQTT_Unity/test/Proximity":
+                //map to boolean
                 break;
             default:
                 msg = System.Text.Encoding.UTF8.GetString(message);
@@ -279,45 +283,50 @@ public class mqttHandle : M2MqttUnityClient
 
     private void UpdateUI()
     {
-        if (client == null)
+        //if scene name is Orbitmode
+        if (SceneManager.GetActiveScene().name == "Sensor2MQTT")
         {
-            if (connectButton != null)
+
+            if (client == null)
             {
-                connectButton.interactable = true;
-                disconnectButton.interactable = false;
-                testPublishButton.interactable = false;
+                if (connectButton != null)
+                {
+                    connectButton.interactable = true;
+                    disconnectButton.interactable = false;
+                    testPublishButton.interactable = false;
+                }
             }
-        }
-        else
-        {
-            if (testPublishButton != null)
+            else
             {
-                testPublishButton.interactable = client.IsConnected;
+                if (testPublishButton != null)
+                {
+                    testPublishButton.interactable = client.IsConnected;
+                }
+                if (disconnectButton != null)
+                {
+                    disconnectButton.interactable = client.IsConnected;
+                }
+                if (connectButton != null)
+                {
+                    connectButton.interactable = !client.IsConnected;
+                }
             }
-            if (disconnectButton != null)
+            if (addressInputField != null && connectButton != null)
             {
-                disconnectButton.interactable = client.IsConnected;
+                addressInputField.interactable = connectButton.interactable;
+                addressInputField.text = brokerAddress;
             }
-            if (connectButton != null)
+            if (portInputField != null && connectButton != null)
             {
-                connectButton.interactable = !client.IsConnected;
+                portInputField.interactable = connectButton.interactable;
+                portInputField.text = brokerPort.ToString();
             }
+            if (clearButton != null && connectButton != null)
+            {
+                clearButton.interactable = connectButton.interactable;
+            }
+            updateUI = false;
         }
-        if (addressInputField != null && connectButton != null)
-        {
-            addressInputField.interactable = connectButton.interactable;
-            addressInputField.text = brokerAddress;
-        }
-        if (portInputField != null && connectButton != null)
-        {
-            portInputField.interactable = connectButton.interactable;
-            portInputField.text = brokerPort.ToString();
-        }
-        if (clearButton != null && connectButton != null)
-        {
-            clearButton.interactable = connectButton.interactable;
-        }
-        updateUI = false;
     }
 
     protected override void OnApplicationQuit()
