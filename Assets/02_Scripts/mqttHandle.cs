@@ -30,6 +30,7 @@ public class mqttHandle : M2MqttUnityClient
     public Light sceneLight;
     //read in material from scene to modify
     public Material objectMaterial;
+    public float maxlightVal = 400;
 
 
 
@@ -190,29 +191,41 @@ public class mqttHandle : M2MqttUnityClient
         base.Connect();
     }
 
+    public float floatMap(float x, float in_min, float in_max, float out_min, float out_max)
+    {
+        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    }
+    
+
     protected override void DecodeMessage(string topic, byte[] message)
     {
         //The message is decoded and messages are relayed to respective functions
         switch (topic)
         {
             case "M2MQTT_Unity/test/Attitude":
-                Debug.Log("Recived" + "M2MQTT_Unity/test/Attitude");
+                //Debug.Log("Recived" + "M2MQTT_Unity/test/Attitude");
                 msg = System.Text.Encoding.UTF8.GetString(message);
-                Debug.Log("Recived" + msg);
+                //Debug.Log("Recived" + msg);
                 //Movemodel._Movemodel.moveModel(msg);
 
                 break;
             case "M2MQTT_Unity/test/Light":
-                //dummy variable, to be replaced by Sheldon with sensor value
-                float lightIntensity = 0.5f;
-                //remap intensity between 0 and 1
-                float clampIntensity = Mathf.Clamp01(lightIntensity);
+                msg = System.Text.Encoding.UTF8.GetString(message);
+                //convert msg to float
+                float lightValue = float.Parse(msg);
+                Debug.Log("Light Value: " + lightValue);
+                //map lightValue from 0 to 1
+                float lightIntensity = floatMap(lightValue, 0, maxlightVal, 0, 1);
                 //set DirectionalLight value
-                sceneLight.intensity = clampIntensity;
+                sceneLight.intensity = lightIntensity;
                 break;
             case "M2MQTT_Unity/test/Proximity":
-                //dummy boolean, to be set by Sheldon with Sensor value
-                bool inProx = true;
+                msg = System.Text.Encoding.UTF8.GetString(message);
+                //convert msg to float
+                float proximity = float.Parse(msg);
+                //map proximity to boolean
+                bool inProx = proximity < 0.5f;
+                Debug.Log("Proximity: " + inProx);
                 //if in Proximity use a blue color, otherwise use the regular gray
                 if (inProx)
                 {
@@ -224,14 +237,15 @@ public class mqttHandle : M2MqttUnityClient
                 }
 
                 //add in code to change materials diffuse color for example
+
                 break;
             default:
                 msg = System.Text.Encoding.UTF8.GetString(message);
                 break;
         }
 
-        Debug.Log("Received: " + msg);
-        Debug.Log("from topic: " + m_msg);
+        //Debug.Log("Received: " + msg);
+        //Debug.Log("from topic: " + m_msg);
 
         StoreMessage(msg);
 
@@ -309,7 +323,7 @@ public class mqttHandle : M2MqttUnityClient
 
     private void UpdateUI()
     {
-        //if scene name is Orbitmode
+        //if scene name is Sensor2MQTT
         if (SceneManager.GetActiveScene().name == "Sensor2MQTT")
         {
 

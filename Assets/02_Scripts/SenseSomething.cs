@@ -23,15 +23,16 @@ public class SenseSomething : MonoBehaviour
 
     //MQTT topics
     string topicLight = "M2MQTT_Unity/test/Light";
-    string topicAccel = "M2MQTT_Unity/test/Accel";
-    string topicMagnetic = "M2MQTT_Unity/test/Magnetic";
     string topicProximity = "M2MQTT_Unity/test/Proximity";
+    string topicAccel = "M2MQTT_Unity/test/Accel";
+    string topicGravity = "M2MQTT_Unity/test/Gravity";
+    string topicAttitude = "M2MQTT_Unity/test/Attitude";
+    string topicMagnetic = "M2MQTT_Unity/test/Magnetic";
     string topicStepCounter = "M2MQTT_Unity/test/StepCounter";
     string topicHumidity = "M2MQTT_Unity/test/Humidity";
     string topicPressure = "M2MQTT_Unity/test/Pressure";
     string topicTemperature = "M2MQTT_Unity/test/Temperature";
-    string topicGravity = "M2MQTT_Unity/test/Gravity";
-    string topicAttitude = "M2MQTT_Unity/test/Attitude";
+
 
 
     //For MQTT messages
@@ -81,6 +82,10 @@ public class SenseSomething : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Lock orientation to portrait
+        Screen.orientation = ScreenOrientation.Portrait;
+        //Keep screen on
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         _MqttHandle = GameObject.FindGameObjectWithTag("MQTT").GetComponent<mqttHandle>();
 
         //if android device
