@@ -26,6 +26,11 @@ public class mqttHandle : M2MqttUnityClient
     private string topicLWT = "IViz/Test/LWT"; // topic to  LWT
     public static mqttHandle _MqttHandle;
 
+    //read in light object from scene to modify
+    public Light sceneLight;
+    //read in material from scene to modify
+    public Material objectMaterial;
+
 
 
     //UI elements
@@ -44,6 +49,7 @@ public class mqttHandle : M2MqttUnityClient
     private void Awake()
     {
         base.Awake();
+
         if (_MqttHandle == null)
         {
             DontDestroyOnLoad(gameObject);
@@ -197,10 +203,27 @@ public class mqttHandle : M2MqttUnityClient
 
                 break;
             case "M2MQTT_Unity/test/Light":
-                //Map to light intensity
+                //dummy variable, to be replaced by Sheldon with sensor value
+                float lightIntensity = 0.5f;
+                //remap intensity between 0 and 1
+                float clampIntensity = Mathf.Clamp01(lightIntensity);
+                //set DirectionalLight value
+                sceneLight.intensity = clampIntensity;
                 break;
             case "M2MQTT_Unity/test/Proximity":
-                //map to boolean
+                //dummy boolean, to be set by Sheldon with Sensor value
+                bool inProx = true;
+                //if in Proximity use a blue color, otherwise use the regular gray
+                if (inProx)
+                {
+                    objectMaterial.color = new Color(0.30588f, 0.92941f, 0.89804f);
+                }
+                else
+                {
+                    objectMaterial.color = new Color(0.8f, 0.8f, 0.8f);
+                }
+
+                //add in code to change materials diffuse color for example
                 break;
             default:
                 msg = System.Text.Encoding.UTF8.GetString(message);
@@ -225,6 +248,9 @@ public class mqttHandle : M2MqttUnityClient
 
     protected override void Update()
     {
+
+        //sceneLight.intensity = Mathf.PingPong(Time.time, 1);
+
         base.Update(); // call ProcessMqttEvents()
         if (eventMessages.Count > 0)
         {

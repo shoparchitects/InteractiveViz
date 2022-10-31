@@ -682,6 +682,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5777451706823751754, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
+      propertyPath: sceneLight
+      value: 
+      objectReference: {fileID: 705507994}
+    - target: {fileID: 5777451706823751754, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
+      propertyPath: objectMaterial
+      value: 
+      objectReference: {fileID: -3238127691811607932, guid: 2ecb29c04bd65f34eb1b1570b353444b, type: 3}
+    - target: {fileID: 5777451706823751754, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
       propertyPath: topics2Subscribe.Array.data[0]
       value: M2MQTT_Unity/test/#
       objectReference: {fileID: 0}
