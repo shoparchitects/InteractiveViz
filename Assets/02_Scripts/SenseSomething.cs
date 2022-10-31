@@ -18,21 +18,24 @@ public class SenseSomething : MonoBehaviour
 {
 
     public static SenseSomething _senseSomething;
+    mqttHandle _MqttHandle;
     
-    mqttSend _mqttSend;
+
+    //MQTT topics
     string topicLight = "M2MQTT_Unity/test/Light";
-    string topicAccel = "M2MQTT_Unity/test/Accel";
-    string topicMagnetic = "M2MQTT_Unity/test/Magnetic";
     string topicProximity = "M2MQTT_Unity/test/Proximity";
+    string topicAccel = "M2MQTT_Unity/test/Accel";
+    string topicGravity = "M2MQTT_Unity/test/Gravity";
+    string topicAttitude = "M2MQTT_Unity/test/Attitude";
+    string topicMagnetic = "M2MQTT_Unity/test/Magnetic";
     string topicStepCounter = "M2MQTT_Unity/test/StepCounter";
     string topicHumidity = "M2MQTT_Unity/test/Humidity";
     string topicPressure = "M2MQTT_Unity/test/Pressure";
     string topicTemperature = "M2MQTT_Unity/test/Temperature";
-    string topicGravity = "M2MQTT_Unity/test/Gravity";
-    string topicAttitude = "M2MQTT_Unity/test/Attitude";
 
 
 
+    //For MQTT messages
     string messageLight;
     string messageAccel;
     string messageMagnetic;
@@ -44,13 +47,20 @@ public class SenseSomething : MonoBehaviour
     string messageGravity;
     string messageAttitude;
 
+    public bool toggleAccelerometer = false;
+    public bool toggleProximity = true;
+    public bool toggleLight = true;
+    public bool toggleMagnetometer = true;
 
 
 
+    //interval to publish MQTT messages
     float lastPublish = 0;
     public float PublishInterval = 2f;
+
+    //interval to read sensors
     float lastRead = 0;
-    public float ReadInterval = 1f;
+    public float ReadInterval = 0.5f;
 
     private void Awake()
     {
@@ -72,7 +82,11 @@ public class SenseSomething : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _mqttSend = GameObject.FindGameObjectWithTag("MQTT").GetComponent<mqttSend>();
+        //Lock orientation to portrait
+        Screen.orientation = ScreenOrientation.Portrait;
+        //Keep screen on
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        _MqttHandle = GameObject.FindGameObjectWithTag("MQTT").GetComponent<mqttHandle>();
 
         //if android device
 #if UNITY_ANDROID
@@ -88,6 +102,11 @@ public class SenseSomething : MonoBehaviour
         InputSystem.EnableDevice(AmbientTemperatureSensor.current);
         InputSystem.EnableDevice(PressureSensor.current);
 
+#endif
+#if UNITY_IOS
+        InputSystem.EnableDevice(Accelerometer.current);
+        InputSystem.EnableDevice(GravitySensor.current);
+        InputSystem.EnableDevice(AttitudeSensor.current);
 #endif
 
     }
@@ -207,30 +226,39 @@ public class SenseSomething : MonoBehaviour
                 
         if ((Time.time - lastPublish) >= PublishInterval)
         {
-            
-            mqttSend._mqttSend.publishData(topicLight, messageLight);
-            Debug.Log("Published: " + messageLight);
-            mqttSend._mqttSend.publishData(topicAccel, messageAccel);
-            Debug.Log("Published: " + messageAccel);
-            mqttSend._mqttSend.publishData(topicMagnetic, messageMagnetic);
-            Debug.Log("Published: " + messageMagnetic);
-            mqttSend._mqttSend.publishData(topicProximity, messageProximity);
-            Debug.Log("Published: " + messageProximity);
-            mqttSend._mqttSend.publishData(topicHumidity, messageHumidity);
-            Debug.Log("Published: " + messageHumidity);
-            mqttSend._mqttSend.publishData(topicTemperature, messageTemperature);
-            Debug.Log("Published: " + messageTemperature);
-            mqttSend._mqttSend.publishData(topicPressure, messagePressure);
-            Debug.Log("Published: " + messagePressure);
-            mqttSend._mqttSend.publishData(topicGravity, messageGravity);
-            Debug.Log("Published: " + messageGravity);
-            mqttSend._mqttSend.publishData(topicAttitude, messageAttitude);
-            Debug.Log("Published: " + messageAttitude);
-            mqttSend._mqttSend.publishData(topicStepCounter, messageStepCounter);
-            Debug.Log("Published: " + messageStepCounter);
 
-
-
+            //mqttHandle._MqttHandle.publishData(topicHumidity, messageHumidity);
+            //Debug.Log("Published: " + messageHumidity);
+            //mqttHandle._MqttHandle.publishData(topicTemperature, messageTemperature);
+            //Debug.Log("Published: " + messageTemperature);
+            //mqttHandle._MqttHandle.publishData(topicPressure, messagePressure);
+            //Debug.Log("Published: " + messagePressure);
+            //mqttHandle._MqttHandle.publishData(topicStepCounter, messageStepCounter);
+            //Debug.Log("Published: " + messageStepCounter);
+            if (toggleAccelerometer)
+            {
+                mqttHandle._MqttHandle.publishData(topicGravity, messageGravity);
+                Debug.Log("Published: " + messageGravity);
+                mqttHandle._MqttHandle.publishData(topicAttitude, messageAttitude);
+                Debug.Log("Published: " + messageAttitude);
+                mqttHandle._MqttHandle.publishData(topicAccel, messageAccel);
+                Debug.Log("Published: " + messageAccel);
+            }
+            if (toggleProximity)
+            {
+                mqttHandle._MqttHandle.publishData(topicProximity, messageProximity);
+                Debug.Log("Published: " + messageProximity);
+            }
+            if (toggleLight)
+            {
+                mqttHandle._MqttHandle.publishData(topicLight, messageLight);
+                Debug.Log("Published: " + messageLight);
+            }
+            if (toggleMagnetometer)
+            {
+                mqttHandle._MqttHandle.publishData(topicMagnetic, messageMagnetic);
+                Debug.Log("Published: " + messageMagnetic);
+            }
 
             lastPublish = Time.time;
         }
@@ -256,6 +284,70 @@ public class SenseSomething : MonoBehaviour
     public void sendToggle()
     {
 
-        mqttSend._mqttSend.publishData("M2MQTT_Unity/test/Toggle", "toggle");
+        mqttHandle._MqttHandle.publishData("M2MQTT_Unity/test/Toggle", "toggle");
     }
+
+    public void toggleAccelerometerSensor()
+    {
+        if (toggleAccelerometer)
+        {
+            toggleAccelerometer = false;
+            InputSystem.DisableDevice(Accelerometer.current);
+            InputSystem.DisableDevice(GravitySensor.current);
+            InputSystem.DisableDevice(AttitudeSensor.current);
+            //InputSystem.DisableDevice(MagneticFieldSensor.current);
+        }
+        else
+        {
+            toggleAccelerometer = true;
+            InputSystem.EnableDevice(Accelerometer.current);
+            InputSystem.EnableDevice(GravitySensor.current);
+            InputSystem.EnableDevice(AttitudeSensor.current);
+            //InputSystem.EnableDevice(MagneticFieldSensor.current);
+        }
+    }
+
+    public void toggleProximitySensor()
+    {
+        if (toggleProximity)
+        {
+            toggleProximity = false;
+            InputSystem.DisableDevice(ProximitySensor.current);
+        }
+        else
+        {
+            toggleProximity = true;
+            InputSystem.EnableDevice(ProximitySensor.current);
+        }
+    }
+
+    public void toggleLightSensor()
+    {
+        if (toggleLight)
+        {
+            toggleLight = false;
+            InputSystem.DisableDevice(LightSensor.current);
+        }
+        else
+        {
+            toggleLight = true;
+            InputSystem.EnableDevice(LightSensor.current);
+        }
+    }
+
+    public void togglemagnetometerSensor()
+    {
+        if (toggleMagnetometer)
+        {
+            toggleMagnetometer = false;
+            InputSystem.DisableDevice(MagneticFieldSensor.current);
+        }
+        else
+        {
+            toggleMagnetometer = true;
+            InputSystem.EnableDevice(MagneticFieldSensor.current);
+        }
+    }
+
+
 }

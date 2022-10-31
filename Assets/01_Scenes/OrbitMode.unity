@@ -674,6 +674,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 431951567}
   m_CullTransparentMesh: 1
+--- !u!1001 &662215023
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5777451706823751754, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
+      propertyPath: sceneLight
+      value: 
+      objectReference: {fileID: 705507994}
+    - target: {fileID: 5777451706823751754, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
+      propertyPath: objectMaterial
+      value: 
+      objectReference: {fileID: -3238127691811607932, guid: 2ecb29c04bd65f34eb1b1570b353444b, type: 3}
+    - target: {fileID: 5777451706823751754, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
+      propertyPath: topics2Subscribe.Array.data[0]
+      value: M2MQTT_Unity/test/#
+      objectReference: {fileID: 0}
+    - target: {fileID: 5777451706823751756, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5777451706823751756, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.3654746
+      objectReference: {fileID: 0}
+    - target: {fileID: 5777451706823751756, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.14302741
+      objectReference: {fileID: 0}
+    - target: {fileID: 5777451706823751756, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.044121876
+      objectReference: {fileID: 0}
+    - target: {fileID: 5777451706823751756, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5777451706823751756, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5777451706823751756, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5777451706823751756, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5777451706823751756, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5777451706823751756, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5777451706823751756, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5777451706823751759, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
+      propertyPath: m_Name
+      value: MQTT Variant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
