@@ -17,6 +17,15 @@ public class ConstructionStatusTextManager : MonoBehaviour
         var percentCompletionVLG = GameObject.FindWithTag("PercentagePanel").transform;
         GameObject prefab = percentCompletionVLG.transform.GetChild(0).gameObject;
 
+        //Delete all except for the first one for template
+        if(percentCompletionVLG.transform.childCount > 1)
+        {
+            for(int j = percentCompletionVLG.transform.childCount - 1; j > 0; j --)
+            {
+                Destroy(percentCompletionVLG.transform.GetChild(j).gameObject);
+            }
+        }
+
 
         int i = 0;
 

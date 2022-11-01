@@ -24,7 +24,14 @@ public class ConstructionDataManager : MonoBehaviour
     // Dictionary utilized by construction status text to track completion percentages
     public Dictionary<string, ConstructionProgress<string>> ConstructionProgressesByKey;
 
+    public Dictionary<GameObject, Material> MaterialByGameObject = new Dictionary<GameObject, Material>();
+
     private void Start()
+    {
+        RunConstructionDataSetupSequence();
+    }
+
+    public void OnRefreshButtonClick()
     {
         RunConstructionDataSetupSequence();
     }
@@ -114,8 +121,10 @@ public class ConstructionDataManager : MonoBehaviour
 
             //1. FINDING the right game object======================
             GameObject elementObj;
-                
-            elementObj = buildings.transform.Find($"{data.Section}/{data.Element}/{data.Floor}")?.gameObject;
+
+            string elementKey = $"{data.Section}/{data.Element}/{data.Floor}";
+
+            elementObj = buildings.transform.Find(elementKey)?.gameObject;
 
             if (elementObj == null)
                 continue;
@@ -135,23 +144,39 @@ public class ConstructionDataManager : MonoBehaviour
                     Material mat = TransparentMaterial;
 
                     var renderers = elementObj.transform.GetComponentsInChildren<MeshRenderer>();
+
+                    //make sure to record the original material before changing it
+                    if (!MaterialByGameObject.ContainsKey(elementObj))
+                        MaterialByGameObject.Add(elementObj, renderers[0].material);
+
                     foreach (MeshRenderer renderer in renderers)
                     {
                         renderer.material = mat;
                     }
-                    //elementObj.transform.GetComponentInChildren<MeshRenderer>().material = mat;
                 }
                 else
                 {
                     foreach (Transform child in elementObj.transform)
                         child.gameObject.SetActive(false);
                 }
-
+                if (elementObj.GetComponent<WIPStatusAnimation>() != null)
+                    Destroy(elementObj.GetComponent<WIPStatusAnimation>());
             }
             else if (data.Progress == IsDone)
             {
-                // see if this new elevation exceeds previous heights
+                Material mat = null;
+                if (MaterialByGameObject.ContainsKey(elementObj))
+                {
+                    mat = MaterialByGameObject[elementObj];
 
+                    var renderers = elementObj.transform.GetComponentsInChildren<MeshRenderer>();
+                    foreach (MeshRenderer renderer in renderers)
+                    {
+                        renderer.material = mat;
+                    }
+                }
+                if (elementObj.GetComponent<WIPStatusAnimation>() != null)
+                    Destroy(elementObj.GetComponent<WIPStatusAnimation>());
             }
             else //if WIP
             {
@@ -159,14 +184,17 @@ public class ConstructionDataManager : MonoBehaviour
                 Material mat = FadeMaterial;
 
                 var renderers = elementObj.transform.GetComponentsInChildren<MeshRenderer>();
+
+                //make sure to record the original material before changing it
+                if (!MaterialByGameObject.ContainsKey(elementObj))
+                    MaterialByGameObject.Add(elementObj, renderers[0].material);
+
                 foreach (MeshRenderer renderer in renderers)
                 {
                     renderer.material = mat;
                     renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
                 }
 
-                //MeshRenderer renderer = elementObj.transform.GetComponentInChildren<MeshRenderer>();
-                //renderer.material = mat;
 
 
                 if (elementObj.GetComponent<WIPStatusAnimation>() == null)

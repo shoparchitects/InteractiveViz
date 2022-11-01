@@ -87,7 +87,7 @@ Material:
     - _negativeScale: 0
     - _retractBackfaces: 0
     m_Colors:
-    - _Color: {r: 0.8207547, g: 0.8207547, b: 0.8207547, a: 0.03137255}
+    - _Color: {r: 0.8207547, g: 0.8207547, b: 0.8207547, a: 0.04430756}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SectionColor: {r: 0.9632353, g: 0.3966263, b: 0.3966263, a: 0.392}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
