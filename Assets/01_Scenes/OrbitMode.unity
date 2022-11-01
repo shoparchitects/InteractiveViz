@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028359, g: 0.22571385, b: 0.30692258, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -753,6 +753,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MQTT Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 5777451706823751759, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f3931d942adec7468129b88ad29753d, type: 3}
 --- !u!1 &705507993
@@ -1199,50 +1203,6 @@ MonoBehaviour:
   axis: {x: 0, y: -1, z: 0}
   space: 1
   sensitivity: 1
---- !u!1 &1117455937
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1117455938}
-  - component: {fileID: 1117455939}
-  m_Layer: 0
-  m_Name: ConstructionStatusTextManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1117455938
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117455937}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1260028464}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1117455939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117455937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1222035eb5a9ec5458f7dc3898190a11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1260028463
 GameObject:
   m_ObjectHideFlags: 0
@@ -1253,6 +1213,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1260028464}
   - component: {fileID: 1260028465}
+  - component: {fileID: 1260028466}
   m_Layer: 0
   m_Name: ConstructionDataManager
   m_TagString: Untagged
@@ -1271,8 +1232,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1117455938}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1290,7 +1250,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TransparentMaterial: {fileID: 2100000, guid: 5b1fda83b6017124184039a066fd2e0d, type: 2}
   FadeMaterial: {fileID: 2100000, guid: 6be12c6ab335679468a3bf6c33b0e058, type: 2}
-  BaseMaterial: {fileID: 2100000, guid: 881157621f83e4b6794c8bde930e2c9c, type: 2}
+--- !u!114 &1260028466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260028463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1222035eb5a9ec5458f7dc3898190a11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1468235852 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3716603756570176739, guid: 8ee41357927a7b84caf26617ec1ff0a7, type: 3}

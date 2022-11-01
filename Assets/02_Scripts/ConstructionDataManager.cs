@@ -94,7 +94,7 @@ public class ConstructionDataManager : MonoBehaviour
         while (moreThanOneRequest);
 
         //Calling construction text management
-        GetComponentInChildren<ConstructionStatusTextManager>().SetupCompletionTexts();
+        GetComponent<ConstructionStatusTextManager>().SetupCompletionTexts();
     }
 
     /// <summary>
